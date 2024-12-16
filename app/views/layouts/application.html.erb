@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Michis Blog" %></title>
+    <title><%= content_for(:title) || "Crazy x Cats" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -23,11 +23,14 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    
+  <body>    
     <%= render 'shared/navbar' %>
     
     <div class="container">
+      <div class="d-flex justify-content-center align-items-center">
+        <%= image_tag("https://previews.123rf.com/images/yupiramos/yupiramos1703/yupiramos170302608/73435088-silueta-de-mascota-de-gato-lindo-icono-aislado-dise%C3%B1o-de-ilustraci%C3%B3n-vectorial.jpg", class:"icono_gato")%>
+        <h1 class="my-5 text-center">Bienvenidos amates de los gatos</h1>
+      </div>
       <%= yield %>
     </div>
 
