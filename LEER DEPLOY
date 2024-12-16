@@ -1,0 +1,92 @@
+RUBY ON RAILS - DEPLOY EN RENDER
+PREVIOS – AGREGAR ARCHIVO RENDER-BUILD.SH
+ crear archivo (desde VsCode) y escribir en render-build.sh – bin/render-build.sh
+#!/usr/bin/env bash
+# exit on error
+set -o errexit
+
+bundle install
+bundle exec rails assets:precompile
+bundle exec rails assets:clean
+
+# If you're using a Free instance type, you need to
+# perform database migrations in the build command.
+# Uncomment the following line:
+
+# bundle exec rails db:migrate
+
+<<<FIN
+ agregar líneas TERMINAL
+chmod a+x bin/render-build.sh
+
+PREVIOS – AGREGAR ARCHIVO RENDER.YML
+ crear archivo (desde VsCode) y escribir en render.yaml – render.yaml
+#!/usr/bin/env bash
+
+databases:
+  - name: mysite
+    databaseName: mysite
+    user: mysite
+    plan: free
+
+services:
+  - type: web
+    name: mysite
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
+    startCommand: "bundle exec rails server"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mysite
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2 # sensible default
+
+<<<FIN
+
+
+Deploy en render.com
+
+INGRESAR A RENDER.COM
+ ingresar con credenciales Github
+ Seleccionar Base de Datos 
+ Llenar nombre de Base de Datos y seleccionar FREE cuenta
+
+Crear nuevo proyecto
+
+ Hacer New Web Service
+ Elegir proyecto de Github
+
+ Se despliega formulario de proyecto
+ Se puede renombrar proyecto
+ configurar lenguaje ruby
+ Agregar comandos al campo Build Command (al final) 
+
+./bin/render-build.sh; ./bin/rails db:migrate
+
+<<<FIN
+
+
+ Agregar comandos al campo Start Command (al final) 
+
+; ./bin/rails server
+
+<<<FIN
+
+ Agregar comandos a sección Environment variables al campo RAILS_MASTER_KEY (al final) 
+ Ir a buscar la master.key a config/ master-key y COPIAR
+ PEGAR en navegador en campo VALUES al lado de RAILS_MASTER_KEY
+
+ Agregar nueva Environment variables y nombrarl DATABASE_URL
+
+ Ir a menu de Base de Datos ubicado en el DASHBOARD y obtener del campo internal database url y COPIAR
+
+ PEGAR en navegador en campo VALUES al lado de DATABASE_URL
+
+ 
+
