@@ -24,6 +24,7 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @comment.user = current_user
+
     # @comment.post = Comment.new(params[:post_id])
     respond_to do |format|
       if @comment.save
