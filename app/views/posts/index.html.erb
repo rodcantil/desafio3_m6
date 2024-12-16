@@ -1,0 +1,24 @@
+<p style="color: green"></p>
+<% content_for :title, "Posts" %>
+
+<div class="d-flex justify-content-between">
+<h1 class="my-5 text-center">Posts</h1>
+    <div>
+        <%= link_to "New Post", new_post_path, class:"btn btn-dark my-5" %>
+    </div>
+</div>
+
+<div class="row justify-content-between" >
+    <% @posts.each do |post| %>
+        <div class="card col-5 mb-5 ">
+            <div class="text-center">
+                <%= image_tag post.image, class:"card-img-top w-50" %>
+        </div>     
+        <div class="card-body">
+            <h5 class="card-title"><%= post.title %></h5>
+            <p class="card-text"><%= post.description.truncate(50) %></p>
+            <%= link_to "Ver", post_path(post), class:"btn btn-primary" %>
+        </div>
+    </div>
+    <% end %>
+</div>
